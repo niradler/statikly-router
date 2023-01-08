@@ -1,0 +1,78 @@
+{
+  "/": {
+    "html": {
+      "root": "/",
+      "dir": "/",
+      "base": "index.html",
+      "ext": ".html",
+      "name": "index",
+      "cwd": "D:\\Projects\\fs-router\\tests\\views",
+      "path": "D:/Projects/fs-router/tests/views/index.html",
+      "relative": "/index.html",
+      "url": "/"
+    }
+  },
+  "/pages/:page": {
+    "ejs": {
+      "root": "/",
+      "dir": "/pages/[page]",
+      "base": "index.ejs",
+      "ext": ".ejs",
+      "name": "index",
+      "cwd": "D:\\Projects\\fs-router\\tests\\views",
+      "path": "D:/Projects/fs-router/tests/views/pages/[page]/index.ejs",
+      "relative": "/pages/[page]/index.ejs",
+      "url": "/pages/:page"
+    },
+    "js": {
+      "root": "/",
+      "dir": "/pages/[page]",
+      "base": "index.js",
+      "ext": ".js",
+      "name": "index",
+      "cwd": "D:\\Projects\\fs-router\\tests\\views",
+      "path": "D:/Projects/fs-router/tests/views/pages/[page]/index.js",
+      "relative": "/pages/[page]/index.js",
+      "url": "/pages/:page"
+    }
+  },
+  "/pages/about": {
+    "ejs": {
+      "root": "/",
+      "dir": "/pages",
+      "base": "about.ejs",
+      "ext": ".ejs",
+      "name": "about",
+      "cwd": "D:\\Projects\\fs-router\\tests\\views",
+      "path": "D:/Projects/fs-router/tests/views/pages/about.ejs",
+      "relative": "/pages/about.ejs",
+      "url": "/pages/about"
+    }
+  },
+  "/pages/todo/:id": {
+    "ejs": {
+      "root": "/",
+      "dir": "/pages/todo",
+      "base": "[id].ejs",
+      "ext": ".ejs",
+      "name": "[id]",
+      "cwd": "D:\\Projects\\fs-router\\tests\\views",
+      "path": "D:/Projects/fs-router/tests/views/pages/todo/[id].ejs",
+      "relative": "/pages/todo/[id].ejs",
+      "url": "/pages/todo/:id"
+    }
+  },
+  "/pages/todos": {
+    "hbs": {
+      "root": "/",
+      "dir": "/pages",
+      "base": "todos.hbs",
+      "ext": ".hbs",
+      "name": "todos",
+      "cwd": "D:\\Projects\\fs-router\\tests\\views",
+      "path": "D:/Projects/fs-router/tests/views/pages/todos.hbs",
+      "relative": "/pages/todos.hbs",
+      "url": "/pages/todos"
+    }
+  }
+}
