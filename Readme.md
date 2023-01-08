@@ -30,3 +30,37 @@ Route:
   }
 }
 ```
+
+express usage example:
+
+```js
+//server.js
+const express = require("express");
+const { Router } = require("statikly-router");
+
+const app = express();
+const router = new Router({ path: "routes", glob: "**/*.js" });
+
+(async () => {
+  try {
+    const routes = await router.scan();
+    for (const url in routes) {
+      const route = require(routes[url].js.path);
+      app.get(url, route);
+    }
+
+    app.listen(4000);
+  } catch (error) {
+    console.log(error);
+  }
+})();
+```
+
+```js
+//routes/home.js
+module.exports = async (req, res) => {
+  return res.json({ page: "home" });
+};
+```
+
+`curl localhost:4000/home`

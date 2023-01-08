@@ -1,6 +1,6 @@
 {
   "name": "statikly-router",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "file system router",
   "main": "build/index.js",
   "types": "build/index.d.ts",

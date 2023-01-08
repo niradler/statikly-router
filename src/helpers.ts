@@ -12,7 +12,7 @@ export const getFiles = (pattern: string): Promise<string[]> => {
 };
 
 export const pathNormalize = (path: string): string => {
-  return path.replace(/\\/gi, "/");
+  return path.replace(/\\/gi, "/").replace(/\/\//g, "/");
 };
 
 export type Route = {
@@ -48,7 +48,7 @@ export const pathToRoute = (
   let url = `${parsed.dir}${
     isRouteRoot(parsed.name, parsed.dir) ? "" : `/${parsed.name}`
   }`;
-  url = transformRoutePath(url, querySep);
+  url = pathNormalize(transformRoutePath(url, querySep));
   const route: Route = {
     ...parsed,
     cwd,
