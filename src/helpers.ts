@@ -2,12 +2,18 @@ import fs from "fs/promises";
 import Path from "path";
 import glob from "glob";
 
-export const getFiles = (pattern: string): Promise<string[]> => {
+export const getFiles = (cwd: string, pattern: string): Promise<string[]> => {
   return new Promise((resolve, reject) => {
-    glob(pattern, function (error: Error, files: string[]) {
-      if (error) reject(error);
-      else resolve(files);
-    });
+    glob(
+      pattern,
+      {
+        cwd,
+      },
+      function (error: Error, files: string[]) {
+        if (error) reject(error);
+        else resolve(files);
+      }
+    );
   });
 };
 
@@ -19,7 +25,6 @@ export type Route = {
   url: string;
   cwd: string;
   path: string;
-  relative: string;
 } & Path.ParsedPath;
 
 const isRouteRoot = (name: string, dir: string): boolean => {
@@ -30,12 +35,17 @@ const isRouteRoot = (name: string, dir: string): boolean => {
 };
 
 const transformRoutePath = (path: string, querySep: string) => {
-  const transformRegex = /\[([^}]*)\]/g;
-  if (transformRegex.test(path)) {
-    return path.replace(transformRegex, (_, s) => `${querySep}${s}`);
+  if (path.includes("[")) {
+    return path.replace(/\[/gi, querySep).replace(/]/gi, "");
   }
 
   return path;
+};
+
+const condPrint = (cond: boolean, print: string, def = "") => {
+  if (cond) return print;
+
+  return def;
 };
 
 export const pathToRoute = (
@@ -43,17 +53,19 @@ export const pathToRoute = (
   cwd: string,
   querySep: string
 ): Route => {
-  const relative = path.replace(pathNormalize(cwd), "");
-  const parsed = Path.parse(relative);
-  let url = `${parsed.dir}${
-    isRouteRoot(parsed.name, parsed.dir) ? "" : `/${parsed.name}`
-  }`;
-  url = pathNormalize(transformRoutePath(url, querySep));
+  const parsed = Path.parse(path);
+
+  let url = condPrint(parsed.dir.startsWith("/"), parsed.dir, `/${parsed.dir}`);
+  url += condPrint(
+    isRouteRoot(parsed.name, parsed.dir),
+    "",
+    `${condPrint(parsed.dir !== "/", "/")}${parsed.name}`
+  );
+  url = transformRoutePath(url, querySep);
   const route: Route = {
     ...parsed,
     cwd,
     path,
-    relative,
     url,
   };
 

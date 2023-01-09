@@ -31,13 +31,14 @@ export class Router {
   async scan(): Promise<Routes> {
     const { glob, path, querySep } = this.options;
     const routes: Routes = {};
-    const files = await getFiles(`${pathNormalize(path)}/${glob}`);
+    const files = await getFiles(path, glob);
 
     for await (const file of files) {
       const route = pathToRoute(file, path, querySep);
       if (routes[route.url] === undefined) {
         routes[route.url] = {};
       }
+
       routes[route.url][route.ext.replace(".", "")] = route;
     }
 
