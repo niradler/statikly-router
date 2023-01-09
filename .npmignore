@@ -3,3 +3,4 @@ tests
 .eslintrc
 .eslintignore
 tsconfig.json
+docs

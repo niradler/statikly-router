@@ -2,14 +2,16 @@
 
 file system router, the router will translate folder structure into routes.
 
-generate route for `views/pages/todo/[id].ejs`
+generated route for `pages/todo/[id].ejs` will be `/pages/todo/:id`
+
+### Usage
 
 ```js
 const { Router } = require("statikly-router");
 const router = new Router({
   path: "views",
 });
-const routes = await router.scan();
+const routes = await router.scan(); // => route[]
 await router.build("api"); //create api/routes.json file to cache routes
 ```
 
@@ -43,12 +45,17 @@ const router = new Router({ path: "routes", glob: "**/*.js" });
 
 (async () => {
   try {
+    console.time("scan");
     const routes = await router.scan();
+    console.timeEnd("scan"); //scan: ~5ms
     for (const url in routes) {
       const route = require(routes[url].js.path);
-      app.get(url, route);
+      const methods = Object.keys(route);
+      methods.forEach((method) => {
+        app[method](url, route[method]);
+      });
     }
-
+    console.log("listen on localhost:4000");
     app.listen(4000);
   } catch (error) {
     console.log(error);
@@ -58,8 +65,10 @@ const router = new Router({ path: "routes", glob: "**/*.js" });
 
 ```js
 //routes/home.js
-module.exports = async (req, res) => {
-  return res.json({ page: "home" });
+module.exports = {
+  get: async (req, res) => {
+    return res.json({ page: "home" });
+  },
 };
 ```
 
