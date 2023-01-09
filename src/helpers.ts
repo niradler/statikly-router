@@ -59,13 +59,13 @@ export const pathToRoute = (
   url += condPrint(
     isRouteRoot(parsed.name, parsed.dir),
     "",
-    `${condPrint(parsed.dir !== "/", "/")}${parsed.name}`
+    `${condPrint(!url.endsWith("/"), "/")}${parsed.name}`
   );
   url = transformRoutePath(url, querySep);
   const route: Route = {
     ...parsed,
     cwd,
-    path,
+    path: `${cwd}${Path.sep}${path.replace(/\//g, Path.sep)}`,
     url,
   };
 

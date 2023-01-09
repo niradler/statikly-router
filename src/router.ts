@@ -1,10 +1,4 @@
-import {
-  getFiles,
-  pathNormalize,
-  toAbsolutePath,
-  pathToRoute,
-  writeSON,
-} from "./helpers";
+import { getFiles, toAbsolutePath, pathToRoute, writeSON } from "./helpers";
 import type { Route } from "./helpers";
 
 interface RouterOptions {
