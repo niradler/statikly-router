@@ -1,6 +1,7 @@
 src
 tests
-.eslintrc
-.eslintignore
 tsconfig.json
+nodemon.json
 docs
+.*
+!.gitignore

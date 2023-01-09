@@ -11,9 +11,9 @@
     "lint-fix": "eslint . --ext .ts --fix",
     "test": "jest",
     "docs": "rimraf ./docs && typedoc ./src/index.ts",
-    "publish-docs": "npx gh-pages -b gh-pages -d docs",
-    "prepublish": "npm run lint-fix && npm run build && npm run test && git add . && npm version patch && git commit -am 'release' && git push && git push --tags",
-    "all": "npm-run-all lint-fix build test"
+    "publish-docs": "npm run docs && npx gh-pages -b gh-pages -d docs",
+    "prepare": "git add . && git commit -am \"clean working dirs\" && npm version patch && git commit -am \"release\" && git push && git push --tags",
+    "publish": "npm-run-all -l -s lint-fix build test prepare && npm publish"
   },
   "keywords": [
     "router",
