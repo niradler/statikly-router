@@ -1,10 +1,12 @@
 const { Router } = require("../build/index");
 
-const router = new Router({
-  path: "tests/views",
-});
-
 test("Router scan", async () => {
+
+  const router = new Router({
+    path: "tests/views",
+  });
+
+
   console.time("scan");
   const routes = await router.scan();
   console.timeEnd("scan");
@@ -31,5 +33,38 @@ test("Router scan", async () => {
       url: '/pages/todos'
     }
   });
+
+});
+
+
+test("Router scan - with dirNameRoute disable", async () => {
+
+  const router = new Router({
+    path: "tests/views",
+    dirNameRoute: false // default
+  });
+
+  const routes = await router.scan();
+
+  expect(routes).toBeDefined();
+
+  expect(routes["/book/book"]).toBeDefined();
+
+
+});
+
+test("Router scan - with dirNameRoute enable", async () => {
+
+  const router = new Router({
+    path: "tests/views",
+    dirNameRoute: true
+  });
+
+  const routes = await router.scan();
+
+  expect(routes).toBeDefined();
+
+  expect(routes["/book"]).toBeDefined();
+
 
 });

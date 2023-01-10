@@ -5,6 +5,7 @@ interface RouterOptions {
   glob?: string | undefined;
   path: string;
   querySep?: string;
+  dirNameRoute?: boolean;
 }
 
 interface Routes {
@@ -19,16 +20,22 @@ export class Router {
     options.glob = options.glob || "**/*(*.html|*.ejs|*.md|*.js|*.hbs)";
     options.querySep = options.querySep || ":";
     options.path = toAbsolutePath(options.path);
+    options.dirNameRoute = options.dirNameRoute || false;
     this.options = options;
   }
 
   async scan(): Promise<Routes> {
-    const { glob, path, querySep } = this.options;
+    const { glob, path, querySep, dirNameRoute } = this.options;
     const routes: Routes = {};
     const files = await getFiles(path, glob);
 
     for await (const file of files) {
-      const route = pathToRoute(file, path, querySep);
+      const route = pathToRoute({
+        path: file,
+        cwd: path,
+        querySep,
+        dirNameRoute,
+      });
       if (routes[route.url] === undefined) {
         routes[route.url] = {};
       }

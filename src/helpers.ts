@@ -27,9 +27,13 @@ export type Route = {
   path: string;
 } & Path.ParsedPath;
 
-const isRouteRoot = (name: string, dir: string): boolean => {
+const isRouteRoot = (
+  name: string,
+  dir: string,
+  dirNameRoute = false
+): boolean => {
   if (name === "index") return true;
-  // if(dir.endsWith(name)) return true TODO: support same name
+  if (dirNameRoute && dir.endsWith(name)) return true;
 
   return false;
 };
@@ -48,16 +52,24 @@ const condPrint = (cond: boolean, print: string, def = "") => {
   return def;
 };
 
-export const pathToRoute = (
-  path: string,
-  cwd: string,
-  querySep: string
-): Route => {
+interface PathToRoute {
+  path: string;
+  cwd: string;
+  querySep: string;
+  dirNameRoute?: boolean;
+}
+
+export const pathToRoute = ({
+  path,
+  cwd,
+  querySep,
+  dirNameRoute = false,
+}: PathToRoute): Route => {
   const parsed = Path.parse(path);
 
   let url = condPrint(parsed.dir.startsWith("/"), parsed.dir, `/${parsed.dir}`);
   url += condPrint(
-    isRouteRoot(parsed.name, parsed.dir),
+    isRouteRoot(parsed.name, parsed.dir, dirNameRoute),
     "",
     `${condPrint(!url.endsWith("/"), "/")}${parsed.name}`
   );
