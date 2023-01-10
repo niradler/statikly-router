@@ -4,10 +4,16 @@ file system router, the router will translate folder structure into routes.
 
 generated route for `pages/todo/[id].ejs` will be `/pages/todo/:id`
 
+### Installation
+
+```sh
+npm i statikly-router
+```
+
 ### Usage
 
 ```js
-const { Router } = require("statikly-router");
+const { Router } = require("statikly-router"); // import { Router } from "statikly-router"
 const router = new Router({
   path: "views",
 });
