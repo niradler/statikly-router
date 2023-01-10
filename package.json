@@ -12,7 +12,7 @@
     "test": "jest",
     "docs": "rimraf ./docs && typedoc ./src/index.ts",
     "publish-docs": "npm run docs && npx gh-pages -b gh-pages -d docs",
-    "prepare": "git add . && git commit -am \"clean working dirs\" && npm version patch && git commit -am \"release\" && git push && git push --tags",
+    "prepare": "npm version patch && git commit -am \"release\" && git push && git push --tags",
     "publish": "npm-run-all -l -s lint-fix build test prepare && npm publish"
   },
   "keywords": [
