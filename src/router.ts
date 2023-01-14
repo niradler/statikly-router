@@ -1,4 +1,4 @@
-import { getFiles, toAbsolutePath, pathToRoute, writeSON } from "./helpers";
+import { globPromise, toAbsolutePath, pathToRoute, writeSON } from "./helpers";
 import type { Route } from "./helpers";
 
 interface RouterOptions {
@@ -27,7 +27,7 @@ export class Router {
   async scan(): Promise<Routes> {
     const { glob, path, querySep, dirNameRoute } = this.options;
     const routes: Routes = {};
-    const files = await getFiles(path, glob);
+    const files = await globPromise(path, glob);
 
     for await (const file of files) {
       const route = pathToRoute({
@@ -44,6 +44,14 @@ export class Router {
     }
 
     return routes;
+  }
+
+  async glob(): Promise<string[]> {
+    const { glob, path } = this.options;
+
+    const files = await globPromise(path, glob);
+
+    return files;
   }
 
   async build(outputPath: string) {

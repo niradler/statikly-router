@@ -2,7 +2,10 @@ import fs from "fs/promises";
 import Path from "path";
 import glob from "glob";
 
-export const getFiles = (cwd: string, pattern: string): Promise<string[]> => {
+export const globPromise = (
+  cwd: string,
+  pattern: string
+): Promise<string[]> => {
   return new Promise((resolve, reject) => {
     glob(
       pattern,
@@ -15,10 +18,6 @@ export const getFiles = (cwd: string, pattern: string): Promise<string[]> => {
       }
     );
   });
-};
-
-export const pathNormalize = (path: string): string => {
-  return path.replace(/\\/gi, "/").replace(/\/\//g, "/");
 };
 
 export type Route = {
@@ -115,8 +114,7 @@ export const fileExists = async (path: string) =>
   !!(await fs.stat(path).catch((e) => false));
 
 export default {
-  getFiles,
-  pathNormalize,
+  globPromise,
   pathToRoute,
   toAbsolutePath,
   generateSecret,
