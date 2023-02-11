@@ -2,7 +2,9 @@
 
 file system router, the router will translate folder structure into routes.
 
-generated route for `pages/todo/[id].ejs` will be `/pages/todo/:id`
+generated routes from file system `pages/todo/[id].ejs` will be `/pages/todo/:id`
+
+**moved to [statikly-stack](https://github.com/niradler/statikly-stack/tree/main/packages/router)**
 
 ### Installation
 
